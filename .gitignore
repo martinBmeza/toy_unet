@@ -1,0 +1,21 @@
+# Project files
+*.vscode
+data/**
+runs/
+notebooks/*.ipynb
+
+# Python
+*__pycache__*
+*.ipynb_checkpoints*
+*.npy
+*.pyc
+
+# vim
+*.swp
+*.swo
+
+# but...
+#!
+
+
+
