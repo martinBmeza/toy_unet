@@ -27,7 +27,7 @@ for directory in "${directories[@]}"; do
 done
 
 # Nsamples sr fmin fmax noise_ratio split_ratio
-python scripts/build_tone_dataset.py 1024 65792 16000 20 6000 0.01 0.7
+python scripts/build_tone_dataset.py 10024 65792 16000 20 6000 0.01 0.7
 
 
 mkdir runs

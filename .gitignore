@@ -3,6 +3,7 @@
 data/**
 runs/
 notebooks/*.ipynb
+*.pth.tar
 
 # Python
 *__pycache__*

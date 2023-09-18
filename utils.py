@@ -1,14 +1,48 @@
 import torch
+import sys, os
+import logging
 import librosa
 import numpy as np
 import matplotlib.pyplot as plt
 from IPython.display import Audio
 from torchvision.utils import make_grid
+from safe_gpu import safe_gpu
+
+def setup_gpu(n=1):
+    safe_gpu.claim_gpus(n)
+    print(f"Allocatd devices: {safe_gpu.gpu_owner.devices_taken}")
+    if torch.cuda.is_available():
+        print("cuda is available")
+    else:
+        print("cuda is not available")
+        exit()
+    return safe_gpu
+
+def create_logger(save_folder, log_level=logging.INFO): 
+    os.makedirs(save_folder, exist_ok=True)
+    root_logger = logging.getLogger()
+    root_logger.setLevel(log_level)
+    log_formatter = logging.Formatter("%(asctime)s [ %(levelname)-5.5s]:  %(message)s")
+    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setFormatter(log_formatter)
+    filepath = os.path.join(save_folder,'out.log')
+    if os.path.exists(filepath):
+        os.remove(filepath)
+    file_handler = logging.FileHandler(filepath)
+    file_handler.setFormatter(log_formatter)
+    if (root_logger.hasHandlers()):
+        root_logger.handlers.clear()
+    root_logger.addHandler(file_handler)
+    root_logger.addHandler(console_handler)
+    return root_logger
+
+
 
 def compare_spectrogram(output, _input, target, plot=False, title=None):
+    #import pdb; pdb.set_trace()
     img_grid = make_grid(
             torch.cat((output, _input, target), dim=0), 
-            scale_each=True, 
+            scale_each=False, 
             padding=0)
     img_grid = img_grid.mean(dim=0).numpy()
     img_grid = librosa.power_to_db(img_grid)

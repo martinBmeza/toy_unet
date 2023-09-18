@@ -47,7 +47,6 @@ split_2 = split_1 + ((args.nsamples - split_1)//2)
 train_idxs = range(split_1)
 val_idxs   = range(split_1, split_2)
 test_idxs  = range(split_2, args.nsamples)
-import pdb; pdb.set_trace()
 for tone_idx in tqdm(train_idxs):
     sf.write(f"data/train/clean/clean_{tone_idx:04.0f}.wav", clean_tones[tone_idx], args.sr)
     sf.write(f"data/train/noisy/noisy_{tone_idx:04.0f}.wav", noisy_tones[tone_idx], args.sr)
